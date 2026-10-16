@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Maven 项目对象模型（POM）文件
+    管理项目依赖、构建插件、编译参数等配置
+    父 POM：spring-boot-starter-parent 3.4.5
+    打包产物：可执行 JAR（Fat JAR），内嵌 Tomcat 容器
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- 继承 Spring Boot 父 POM，统一管理依赖版本 -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.5</version>
+		<relativePath/> <!-- 从 Maven 仓库查找父 POM，不从本地路径 -->
+	</parent>
+
+	<!-- 项目坐标 -->
+	<groupId>com.gyx</groupId>
+	<artifactId>ai-resume-copilot</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>ai-resume-copilot</name>
+	<description>AI 简历助手后端服务</description>
+
+	<!-- Java 版本 -->
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+
+	<!-- ================================================================= -->
+	<!-- 项目依赖 -->
+	<!-- ================================================================= -->
+	<dependencies>
+		<!-- Spring Boot Web 启动器：内嵌 Tomcat + Spring MVC + Jackson JSON 序列化 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- MySQL JDBC 驱动：连接 MySQL 数据库 -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope> <!-- 运行时依赖，编译时不需要 -->
+		</dependency>
+
+		<!-- Lombok：通过注解自动生成 getter/setter/构造器等样板代码 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional> <!-- 不传递给依赖本项目的模块 -->
+		</dependency>
+
+		<!-- Spring Boot 测试：JUnit 5 + Mockito + Spring Test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope> <!-- 仅测试阶段可用 -->
+		</dependency>
+
+		<!-- MyBatis-Plus：MyBatis 增强工具，提供通用 CRUD、Lambda 条件构造器、分页插件等 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+			<version>3.5.7</version>
+		</dependency>
+
+		<!-- Spring Security Crypto：仅加密模块，不引入认证/授权框架，使用 BCrypt 加密密码 -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
+
+		<!-- JJWT - API 定义层：提供 JWT 构建和解析的接口 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.2</version>
+		</dependency>
+
+		<!-- JJWT - 运行时实现层：提供 JWT 的签名、验证等核心逻辑 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- JJWT - Jackson 序列化层：将 JWT Payload 中的 JSON 与 Java 对象互相转换 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.2</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- LangChain4j：AI 服务框架，提供声明式 AI 调用、模型集成 -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<!-- LangChain4j OpenAI 集成 -->
+		<dependency>
+			<groupId>dev.langchain4j</groupId>
+			<artifactId>langchain4j-open-ai</artifactId>
+			<version>0.36.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>3.0.3</version>
+		</dependency>
+
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-data-redis</artifactId>
+				</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+	</dependencies>
+
+	<!-- ================================================================= -->
+	<!-- 构建配置 -->
+	<!-- ================================================================= -->
+	<build>
+		<plugins>
+			<!-- Spring Boot Maven 插件：打包为可执行 JAR，并支持 spring-boot:run 直接启动 -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- 打包时排除 Lombok，因为 Lombok 只在编译期需要 -->
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- Maven 编译器插件：配置 Lombok 注解处理器路径 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<!-- 主代码编译阶段 -->
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<!-- 指定 Lombok 注解处理器路径，使编译器能正确处理 @Data 等注解 -->
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+					<!-- 测试代码编译阶段 -->
+					<execution>
+						<id>default-testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

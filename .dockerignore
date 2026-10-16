@@ -1,0 +1,11 @@
+.git
+.idea
+.mvn
+target
+resume-frontend/node_modules
+resume-frontend/dist
+application-local.yml
+**/application-local.yml
+*.jmx
+load-test-users*.csv
+*.jtl

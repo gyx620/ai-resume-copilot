@@ -1,0 +1,52 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body, #app { height:100%; }
+body { font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif; color:#303133; }
+
+.auth-page { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.auth-card { width:440px; padding:48px 40px; background:#fff; border-radius:16px; box-shadow:0 24px 80px rgba(0,0,0,.18); }
+.auth-card h1 { text-align:center; font-size:26px; color:#303133; margin-bottom:4px; }
+.auth-card .subtitle { text-align:center; font-size:13px; color:#909399; margin-bottom:28px; }
+.auth-card .el-button { width:100%; }
+.auth-card .switch-link { text-align:center; margin-top:16px; font-size:13px; color:#909399; }
+.auth-card .switch-link a { color:#667eea; text-decoration:none; }
+
+.dashboard { height:100vh; display:flex; }
+.sidebar { width:220px; background:linear-gradient(180deg, #1e1e2d 0%, #1a1a2e 100%); color:#fff; flex-shrink:0; display:flex; flex-direction:column; }
+.sidebar-logo { padding:24px 20px 20px; font-size:18px; font-weight:700; color:#a78bfa; border-bottom:1px solid rgba(255,255,255,.06); }
+.sidebar-menu { flex:1; padding:12px 0; }
+.sidebar-menu .menu-item { display:flex; align-items:center; gap:10px; padding:12px 24px; font-size:14px; color:rgba(255,255,255,.6); cursor:pointer; transition:all .2s; }
+.sidebar-menu .menu-item:hover, .sidebar-menu .menu-item.active { color:#fff; background:rgba(255,255,255,.06); }
+.sidebar-footer { padding:16px 20px; border-top:1px solid rgba(255,255,255,.06); }
+.sidebar-footer .user-info { display:flex; align-items:center; gap:10px; font-size:13px; color:rgba(255,255,255,.5); }
+
+.main-area { flex:1; background:#f0f2f5; overflow-y:auto; }
+.topbar { padding:0 28px; height:56px; display:flex; align-items:center; justify-content:space-between; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.04); position:sticky; top:0; z-index:10; }
+.topbar-title { font-size:15px; font-weight:600; color:#303133; }
+.content { padding:24px 28px; max-width:1100px; }
+
+.stat-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
+.stat-card { padding:20px 24px; background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+.stat-card .stat-label { font-size:12px; color:#909399; margin-bottom:6px; }
+.stat-card .stat-value { font-size:28px; font-weight:700; color:#303133; }
+.stat-card.primary .stat-value { color:#667eea; }
+.stat-card.success .stat-value { color:#67C23A; }
+.stat-card.warning .stat-value { color:#E6A23C; }
+.stat-card.danger .stat-value { color:#F56C6C; }
+
+.panel { background:#fff; border-radius:10px; box-shadow:0 1px 3px rgba(0,0,0,.04); margin-bottom:20px; }
+.panel-header { padding:16px 24px; font-size:15px; font-weight:600; border-bottom:1px solid #ebeef5; display:flex; align-items:center; justify-content:space-between; }
+
+.upload-zone { padding:32px; text-align:center; }
+.upload-zone .el-upload-dragger { width:100%; padding:36px 0; }
+
+.stream-box { padding:20px 24px; }
+.stream-box .stream-text { font-size:14px; line-height:1.8; white-space:pre-wrap; min-height:80px; max-height:420px; overflow-y:auto; background:#fafafa; border-radius:8px; padding:16px; border:1px solid #e4e7ed; }
+.stream-box .stream-cursor { display:inline-block; animation:blink .8s infinite; font-weight:bold; color:#667eea; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.result-score { display:flex; align-items:center; gap:12px; padding:16px 24px; background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-radius:8px; margin:16px 24px; }
+.result-score .score-num { font-size:48px; font-weight:800; color:#667eea; }
+.result-score .score-unit { font-size:16px; color:#909399; }
+
+.section-label { font-size:13px; font-weight:600; color:#606266; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+.section-text { white-space:pre-wrap; line-height:1.8; font-size:13px; color:#303133; padding:12px 16px; background:#fafafa; border-radius:8px; }

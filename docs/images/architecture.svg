@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="560" viewBox="0 0 920 560" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#5b6b8c"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="920" height="560" fill="#f7f9fc"/>
+
+  <!-- ===== 前端 ===== -->
+  <rect x="40" y="200" width="210" height="150" rx="10" fill="#eef2ff" stroke="#667eea" stroke-width="2"/>
+  <text x="145" y="232" text-anchor="middle" font-size="16" font-weight="bold" fill="#4338ca">前端</text>
+  <text x="145" y="258" text-anchor="middle" font-size="13" fill="#4f46e5">Vue 3 + Vite + Element Plus</text>
+  <text x="145" y="288" text-anchor="middle" font-size="12" fill="#6b7280">登录 / 注册</text>
+  <text x="145" y="308" text-anchor="middle" font-size="12" fill="#6b7280">上传 PDF / 简历列表</text>
+  <text x="145" y="328" text-anchor="middle" font-size="12" fill="#6b7280">AI 流式分析展示</text>
+
+  <!-- ===== 后端 ===== -->
+  <rect x="330" y="40" width="280" height="390" rx="10" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="470" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a">后端（Spring Boot 3 / Java 17）</text>
+
+  <rect x="355" y="95" width="230" height="60" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="470" y="121" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Controller 接口层</text>
+  <text x="470" y="141" text-anchor="middle" font-size="11" fill="#64748b">User / Resume / AI / File</text>
+
+  <rect x="355" y="175" width="230" height="60" rx="8" fill="#dcfce7" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="470" y="201" text-anchor="middle" font-size="14" font-weight="bold" fill="#166534">Service 业务层</text>
+  <text x="470" y="221" text-anchor="middle" font-size="11" fill="#64748b">Prompt 构造 / PDFBox / 缓存 / 入库</text>
+
+  <rect x="355" y="255" width="230" height="60" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="470" y="281" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">Mapper 数据层</text>
+  <text x="470" y="301" text-anchor="middle" font-size="11" fill="#64748b">MyBatis-Plus（BaseMapper）</text>
+
+  <rect x="355" y="335" width="230" height="50" rx="8" fill="#fce7f3" stroke="#ec4899" stroke-width="1.5"/>
+  <text x="470" y="357" text-anchor="middle" font-size="13" font-weight="bold" fill="#9d174d">JwtInterceptor</text>
+  <text x="470" y="375" text-anchor="middle" font-size="11" fill="#64748b">JWT 鉴权（ThreadLocal 存 userId）</text>
+
+  <!-- 后端内部分层箭头 -->
+  <line x1="470" y1="155" x2="470" y2="175" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="470" y1="235" x2="470" y2="255" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== MySQL ===== -->
+  <rect x="680" y="70" width="200" height="90" rx="10" fill="#fff1f2" stroke="#e11d48" stroke-width="2"/>
+  <text x="780" y="105" text-anchor="middle" font-size="15" font-weight="bold" fill="#9f1239">MySQL</text>
+  <text x="780" y="128" text-anchor="middle" font-size="12" fill="#6b7280">resume_ai 数据库</text>
+  <text x="780" y="146" text-anchor="middle" font-size="11" fill="#94a3b8">用户 / 简历 / 分析记录</text>
+
+  <!-- ===== Redis ===== -->
+  <rect x="680" y="190" width="200" height="90" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="780" y="225" text-anchor="middle" font-size="15" font-weight="bold" fill="#9a3412">Redis</text>
+  <text x="780" y="248" text-anchor="middle" font-size="12" fill="#6b7280">分析结果缓存</text>
+  <text x="780" y="266" text-anchor="middle" font-size="11" fill="#94a3b8">过期时间 30 分钟</text>
+
+  <!-- ===== DeepSeek ===== -->
+  <rect x="680" y="310" width="200" height="90" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="780" y="345" text-anchor="middle" font-size="15" font-weight="bold" fill="#166534">DeepSeek API</text>
+  <text x="780" y="368" text-anchor="middle" font-size="12" fill="#6b7280">deepseek-chat</text>
+  <text x="780" y="386" text-anchor="middle" font-size="11" fill="#94a3b8">LangChain4j 调用</text>
+
+  <!-- ===== 连接线 ===== -->
+  <!-- 前端 -> 后端 -->
+  <line x1="250" y1="275" x2="328" y2="275" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="289" y="265" text-anchor="middle" font-size="11" fill="#5b6b8c">HTTP /api</text>
+
+  <!-- 后端 -> MySQL -->
+  <line x1="610" y1="130" x2="678" y2="120" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="648" y="112" text-anchor="middle" font-size="10" fill="#5b6b8c">SQL</text>
+
+  <!-- 后端 -> Redis -->
+  <line x1="610" y1="250" x2="678" y2="240" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="648" y="238" text-anchor="middle" font-size="10" fill="#5b6b8c">缓存</text>
+
+  <!-- 后端 <-> DeepSeek -->
+  <line x1="610" y1="360" x2="678" y2="352" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="648" y="350" text-anchor="middle" font-size="10" fill="#5b6b8c">调用</text>
+  <line x1="678" y1="372" x2="610" y2="380" stroke="#5b6b8c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="648" y="392" text-anchor="middle" font-size="10" fill="#5b6b8c">SSE 流式</text>
+
+  <!-- ===== 图例标题 ===== -->
+  <text x="40" y="520" font-size="13" font-weight="bold" fill="#334155">AI Resume Copilot — 前后端架构图</text>
+  <text x="40" y="540" font-size="11" fill="#94a3b8">浏览器 → Spring Boot（JWT 鉴权 → Controller → Service → Mapper）→ MySQL；Service 读 Redis 缓存、调 DeepSeek（LangChain4j）</text>
+</svg>

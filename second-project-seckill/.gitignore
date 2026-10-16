@@ -1,0 +1,6 @@
+target/
+application-local.yml
+.idea/
+load-test-users*.csv
+*.jtl
+jmeter-report/

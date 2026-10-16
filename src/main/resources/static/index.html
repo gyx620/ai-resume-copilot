@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Copilot</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 登录页 -->
+        <div v-if="!isLoggedIn" class="auth-container">
+            <div class="auth-card">
+                <h1 class="auth-title">AI Resume Copilot</h1>
+                <p class="auth-subtitle">智能简历分析助手</p>
+
+                <el-tabs v-model="authTab" class="auth-tabs" :stretch="true">
+                    <el-tab-pane label="登录" name="login">
+                        <el-form :model="loginForm" :rules="loginRules" ref="loginFormRef">
+                            <el-form-item prop="username">
+                                <el-input v-model="loginForm.username" placeholder="用户名" prefix-icon="User" size="large"/>
+                            </el-form-item>
+                            <el-form-item prop="password">
+                                <el-input v-model="loginForm.password" type="password" placeholder="密码" prefix-icon="Lock" size="large" @keyup.enter="handleLogin"/>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" size="large" class="auth-btn" @click="handleLogin" :loading="authLoading">登 录</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+                    <el-tab-pane label="注册" name="register">
+                        <el-form :model="registerForm" :rules="registerRules" ref="registerFormRef">
+                            <el-form-item prop="username">
+                                <el-input v-model="registerForm.username" placeholder="用户名（3-20位）" size="large"/>
+                            </el-form-item>
+                            <el-form-item prop="password">
+                                <el-input v-model="registerForm.password" type="password" placeholder="密码（6-32位）" size="large"/>
+                            </el-form-item>
+                            <el-form-item prop="email">
+                                <el-input v-model="registerForm.email" placeholder="邮箱（选填）" size="large"/>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="success" size="large" class="auth-btn" @click="handleRegister" :loading="authLoading">注 册</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+        </div>
+
+        <!-- 工作台 -->
+        <div v-else class="dashboard">
+            <header class="dashboard-header">
+                <span class="header-logo">AI Resume Copilot</span>
+                <div class="header-right">
+                    <el-tag type="info" size="small">{{ currentUser }}</el-tag>
+                    <el-button text @click="handleLogout">退出</el-button>
+                </div>
+            </header>
+
+            <div class="dashboard-body">
+                <!-- 上传简历 -->
+                <el-card class="section-card">
+                    <template #header><span class="card-title">上传简历</span></template>
+                    <el-upload
+                        class="upload-area"
+                        drag
+                        :http-request="handleUpload"
+                        :show-file-list="false"
+                        accept=".pdf"
+                        :disabled="uploading">
+                        <el-icon class="upload-icon"><UploadFilled /></el-icon>
+                        <div class="upload-text">拖拽 PDF 简历到此处，或<em>点击上传</em></div>
+                        <div class="upload-hint">仅支持 .pdf 格式</div>
+                    </el-upload>
+                    <div v-if="uploading" style="margin-top:12px">
+                        <el-progress :percentage="uploadPercent" :status="uploadPercent===100?'success':''"/>
+                    </div>
+                </el-card>
+
+                <!-- 简历列表 -->
+                <el-card class="section-card">
+                    <template #header>
+                        <div class="card-header-row">
+                            <span class="card-title">我的简历</span>
+                            <el-button text type="primary" @click="loadResumes">刷新</el-button>
+                        </div>
+                    </template>
+                    <el-table :data="resumes" stripe v-loading="resumesLoading" empty-text="暂无简历，请先上传">
+                        <el-table-column prop="id" label="ID" width="60"/>
+                        <el-table-column prop="fileName" label="文件名" min-width="180" show-overflow-tooltip/>
+                        <el-table-column label="上传时间" width="170">
+                            <template #default="{row}">{{ formatTime(row.createTime) }}</template>
+                        </el-table-column>
+                        <el-table-column label="操作" width="280">
+                            <template #default="{row}">
+                                <el-button size="small" type="primary" link @click="viewResume(row)">查看内容</el-button>
+                                <el-button size="small" type="warning" link @click="analyzeResume(row)">AI分析</el-button>
+                                <el-button size="small" type="danger" link @click="deleteResume(row)">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-card>
+
+                <!-- AI 分析结果 -->
+                <el-card v-if="analyzing || analyzeResult" class="section-card">
+                    <template #header><span class="card-title">AI 分析结果</span></template>
+
+                    <div v-if="analyzing" class="streaming-box">
+                        <el-alert title="AI 正在分析中..." type="info" :closable="false" style="margin-bottom:12px"/>
+                        <div class="stream-content">{{ streamText }}</div>
+                        <div class="stream-cursor">|</div>
+                    </div>
+
+                    <div v-if="analyzeResult && !analyzing">
+                        <el-descriptions :column="1" border>
+                            <el-descriptions-item label="综合评分">
+                                <el-rate v-model="scoreStars" disabled show-score :max="10" :colors="['#F56C6C','#E6A23C','#67C23A']"/>
+                                <span style="margin-left:8px;font-weight:bold;font-size:18px">{{ analyzeResult.score }} 分</span>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="优势">
+                                <div style="white-space:pre-wrap;color:#67C23A">{{ analyzeResult.advantage }}</div>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="问题">
+                                <div style="white-space:pre-wrap;color:#F56C6C">{{ analyzeResult.problem }}</div>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="优化建议">
+                                <div style="white-space:pre-wrap">{{ analyzeResult.suggestion }}</div>
+                            </el-descriptions-item>
+                        </el-descriptions>
+                    </div>
+                </el-card>
+            </div>
+        </div>
+
+        <!-- 简历内容对话框 -->
+        <el-dialog v-model="contentDialog.visible" title="简历内容" width="700px">
+            <div class="resume-content">{{ contentDialog.text }}</div>
+        </el-dialog>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+    <script src="https://unpkg.com/element-plus/dist/locale/zh-cn.min.js"></script>
+    <script src="https://unpkg.com/@element-plus/icons-vue"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

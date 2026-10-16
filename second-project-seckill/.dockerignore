@@ -1,0 +1,8 @@
+.git
+.idea
+.mvn
+target
+application-local.yml
+load-test-users*.csv
+*.jmx
+*.jtl
