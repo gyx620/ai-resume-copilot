@@ -161,7 +161,7 @@ langchain4j:
 
 把引号中的说明换成自己的值。不要把真实密钥写进 `src/main/resources/application.yml`，也不要提交 `application-local.yml`。如果使用 IDEA 启动，确认运行配置的 **Working directory** 是项目根目录（包含 `pom.xml` 的目录）。
 
-也可以使用环境变量覆盖配置：`DB_URL`（默认 `jdbc:mysql://localhost:3306/resume_ai`）、`DB_USERNAME`（默认 `root`）、`DB_PASSWORD`、`AI_API_KEY` 和 `JWT_SECRET`。在 PowerShell 中设置的 `$env:...` 只对该窗口启动的程序生效；从 IDEA 启动时，应将变量填入 IDEA 的运行配置，或使用上述本地配置文件。
+JWT 密钥没有公开默认值，启动后端前必须在本机 `application-local.yml` 或环境变量中配置 `JWT_SECRET`。建议使用至少 32 字节的随机字符串；秒杀项目应使用另一把独立密钥。
 
 ### 4. 启动后端
 
