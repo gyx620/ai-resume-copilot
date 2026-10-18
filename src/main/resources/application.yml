@@ -18,7 +18,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 jwt:
-  secret: ${JWT_SECRET:local-dev-only-change-this-secret-key}
+  secret: ${JWT_SECRET}
   expire: 86400000
 
 mybatis.plus:
