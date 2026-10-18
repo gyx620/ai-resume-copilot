@@ -157,6 +157,9 @@ langchain4j:
   open-ai:
     chat-model:
       api-key: "你的 DeepSeek API Key"
+
+jwt:
+  secret: "请替换成至少 32 字节的随机字符串"
 ```
 
 把引号中的说明换成自己的值。不要把真实密钥写进 `src/main/resources/application.yml`，也不要提交 `application-local.yml`。如果使用 IDEA 启动，确认运行配置的 **Working directory** 是项目根目录（包含 `pom.xml` 的目录）。
